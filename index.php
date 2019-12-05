@@ -27,6 +27,6 @@ $loader = new \Twig\Loader\FilesystemLoader('app/templates');
 $twig = new \Twig\Environment($loader, [
     'cache' => 'app/cache/compilation_cache',
 ]);
-$template = $twig->load('base1.html');
+$template = $twig->load('root1.html');
 echo $template->render(['the' => 'variables', 'go' => 'here']);
 ?>
