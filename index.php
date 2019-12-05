@@ -16,7 +16,17 @@ $route = array(
 
 $app = new App();
 $app->setRoutes($route);
-$app->do();
+//$app->do();
 
 ;
+?>
+<?php
+require_once 'app/lib/vendor/autoload.php';
+
+$loader = new \Twig\Loader\FilesystemLoader('app/templates');
+$twig = new \Twig\Environment($loader, [
+    'cache' => 'app/cache/compilation_cache',
+]);
+$template = $twig->load('base1.html');
+echo $template->render(['the' => 'variables', 'go' => 'here']);
 ?>
