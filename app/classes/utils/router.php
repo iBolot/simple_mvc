@@ -33,9 +33,9 @@ class Router
             // echo $ind . "<br>";
             
             for($i = 1; $i < count($arrRoute); $i++){
-                echo $i;
-                echo $arrURI[$i] . " - " . $arrRoute[$i];                
-                echo"<br>";
+                //echo $i;
+                //echo $arrURI[$i] . " - " . $arrRoute[$i];                
+                //echo"<br>";
                 if( $arrRoute[$i][0] == "[") {                    
                     list($type, $name) = explode(":", str_replace(array("[","]"), "",$arrRoute[$i]) );
                     // echo $type . " : " . $name . "<br>";
@@ -43,7 +43,7 @@ class Router
                     $arrParams[$name] = $arrURI[$i];
                 }
                 elseif( $arrURI[$i] !== $arrRoute[$i] ) break;
-                echo "********* math<br>";
+                //echo "********* math<br>";
                 if($i+1 == count($arrRoute)) $matched = true;
             }
 
@@ -51,43 +51,46 @@ class Router
         }
 
         if(!$matched){
-            $this->showError(404);
+            return false;
         } else{
-            $this->callController($route[2], $arrParams);
-            //echo $route[2];
+            $res = Array();
+            //return $this->callController($route[2], $arrParams);
+            list($cName, $cMethod) = explode("#", $route[2]);
+            $res["controller"] = $cName;
+            $res["method"] = $cMethod;
+            $res["params"] = $arrParams;
+            return $res;
         }
     }
 
-    private function showError($code){
-        echo "<br>Error 404<br>";
-    }
+
 
     private function callController($mixController, $args){
         list($cName, $cMethod) = explode("#", $mixController);
-        echo"Controller name: " . $cName;
-        echo"Controller method: " . $cMethod;
-        echo "<br>";
+        //echo"Controller name: " . $cName;
+        //echo"Controller method: " . $cMethod;
+        //echo "<br>";
 
         try{
             $o = new $cName();
-            $o->{$cMethod}($args);
+            return $o->{$cMethod}($args);
         } catch(Throwable $ex){
-            printf('Class %s doesn exists!', $cName);
+            return sprintf('Class %s doesn exists!', $cName);
         }
 
     }
         
-    function render_html($pagepath, $data = array())
-    {
-        $pagepath = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $pagepath);
-        if (is_array($data))
-        {
-            @extract($data);
-        }
-        ob_start();
-        include(ABSPATH . 'templates/' . $pagepath . '.php');
-        return ob_get_clean();
-    }
+    // function render_html($pagepath, $data = array())
+    // {
+    //     $pagepath = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $pagepath);
+    //     if (is_array($data))
+    //     {
+    //         @extract($data);
+    //     }
+    //     ob_start();
+    //     include(ABSPATH . 'templates/' . $pagepath . '.php');
+    //     return ob_get_clean();
+    // }
 
 }
 ?>

@@ -16,17 +16,20 @@ $route = array(
 
 $app = new App();
 $app->setRoutes($route);
+$app->setDB("127.0.0.1", "demo", "my_password", "demo");
 //$app->do();
 
-;
-?>
-<?php
+
 require_once 'app/lib/vendor/autoload.php';
 
 $loader = new \Twig\Loader\FilesystemLoader('app/templates');
 $twig = new \Twig\Environment($loader, [
     'cache' => 'app/cache/compilation_cache',
+    'auto_reload' => true
 ]);
-$template = $twig->load('root1.html');
-echo $template->render(['the' => 'variables', 'go' => 'here']);
+
+$app->setRender($twig);
+$app->do();
+//$template = $twig->load('root1.html');
+//echo $template->render(['statstic'=>'Ok','the' => 'variables', 'go' => 'here']);
 ?>
