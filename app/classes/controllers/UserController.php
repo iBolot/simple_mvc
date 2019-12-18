@@ -18,7 +18,8 @@ class UserController{
     }
 
     public function show(){
-        echo "show";
+        $template = $this->app->getRender()->load('root1.html');
+        echo $template->render(['loadtime'=>$this->app->loadTime(), 'sqlinfo'=>$this->app->sqlInfo()]);
     }
 
     public function setEnv($app){

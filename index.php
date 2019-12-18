@@ -4,7 +4,7 @@ require("app/app.php");
 
 <?php
 $route = array(
-    array('GET','/home', 'UserController2#show'),
+    array('GET','/home', 'UserController#show'),
     array('GET','/home/[i:id]', 'UserController#showDetails'),
     array('GET','/home/[i:id]/[i:id2]', 'UserController#showDetails'),
     array('GET','/signin/[i:id]', 'users#update', 'update_user'),

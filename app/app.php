@@ -53,6 +53,11 @@ class App{
         $resolved = $router->resolve();
         
         // if resolved not false
+        if(!$resolved){
+            echo (new DefaultAction())->show404();
+            (new DefaultAction())->redirect301("/home");
+            return;
+        }
         // TODO: check if the controller and its method are present
         $o = new $resolved["controller"];
         $o->setEnv($this);
